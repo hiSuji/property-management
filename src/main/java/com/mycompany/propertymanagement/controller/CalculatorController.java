@@ -1,9 +1,9 @@
 package com.mycompany.propertymanagement.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.mycompany.propertymanagement.dto.CalculatorDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CalculatorController {
@@ -18,6 +18,13 @@ public class CalculatorController {
     @GetMapping("/sub/{num1}/{num2}")
     public double substract(@PathVariable("num1") double num1, @PathVariable("num2") double num2) {
         return num1 - num2;
+    }
+
+    @PostMapping("/mul")
+    public ResponseEntity<Double> multiply(@RequestBody CalculatorDTO calculatorDTO) {
+        double result = calculatorDTO.getNum1() * calculatorDTO.getNum2() * calculatorDTO.getNum3();
+        ResponseEntity<Double> responseEntity = new ResponseEntity<>(result, HttpStatus.CREATED);
+        return responseEntity;
     }
 
 }
