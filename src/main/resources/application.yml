@@ -1,2 +1,21 @@
 server:
   port: 8089
+
+spring:
+  # Allow H2 DB to be accessed browser and Java application
+  h2:
+    console:
+      enabled: true
+      path: /h2-console  # database server path
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/h2/pmsdb
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update  # Tells to keep existing data and table while server restart, other value is create where after server restart
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
