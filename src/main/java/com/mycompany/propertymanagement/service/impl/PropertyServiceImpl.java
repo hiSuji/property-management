@@ -8,17 +8,42 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PropertyServiceImpl implements PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
     @Override
-    public PropertyDTO saveProperty(PropertyDTO propertyDTO) {
+    public PropertyEntity convertDTOtoEntity(PropertyDTO propertyDTO) {
         PropertyEntity propertyEntity = new PropertyEntity();
         BeanUtils.copyProperties(propertyDTO, propertyEntity);
-        propertyEntity = propertyRepository.save(propertyEntity);
+        return propertyEntity;
+    }
+
+    @Override
+    public PropertyDTO convertEntityToDTO(PropertyEntity propertyEntity) {
+        PropertyDTO propertyDTO = new PropertyDTO();
         BeanUtils.copyProperties(propertyEntity, propertyDTO);
         return propertyDTO;
+    }
+
+    @Override
+    public PropertyDTO saveProperty(PropertyDTO propertyDTO) {
+        PropertyEntity propertyEntity = this.convertDTOtoEntity(propertyDTO);
+        propertyEntity = propertyRepository.save(propertyEntity);
+        return this.convertEntityToDTO(propertyEntity);
+    }
+
+    @Override
+    public List<PropertyDTO> getAllProperties() {
+        List<PropertyEntity> properties = (List<PropertyEntity>)propertyRepository.findAll();
+        List<PropertyDTO> propList = new ArrayList<>();
+        for (PropertyEntity entity: properties) {
+            propList.add(this.convertEntityToDTO(entity));
+        }
+        return propList;
     }
 }
