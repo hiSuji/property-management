@@ -24,7 +24,6 @@ public class PropertyController {
     @PostMapping("/properties")
     public ResponseEntity<PropertyDTO> saveProperty(@RequestBody PropertyDTO propertyDTO) {
         propertyDTO = propertyService.saveProperty(propertyDTO);
-
         return new ResponseEntity<>(propertyDTO, HttpStatus.CREATED);
     }
 
@@ -33,4 +32,12 @@ public class PropertyController {
         List<PropertyDTO> properties = propertyService.getAllProperties();
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
+
+    @PutMapping("/properties/{propertyId}")
+    public ResponseEntity<PropertyDTO> updateProperty(@RequestBody PropertyDTO propertyDTO, @PathVariable Long propertyId) {
+        propertyDTO = propertyService.updateProperty(propertyDTO, propertyId);
+        return new ResponseEntity<>(propertyDTO, HttpStatus.CREATED);
+    }
+
+
 }

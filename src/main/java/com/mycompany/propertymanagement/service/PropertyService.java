@@ -10,4 +10,5 @@ public interface PropertyService {
     PropertyDTO convertEntityToDTO(PropertyEntity propertyEntity);
     PropertyDTO saveProperty(PropertyDTO propertyDTO);
     List<PropertyDTO> getAllProperties();
+    PropertyDTO updateProperty(PropertyDTO propertyDTO, Long propertyId);
 }
